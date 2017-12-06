@@ -1,11 +1,12 @@
+//Создаем поле
 function SeaFight() {
-
 
     var main = document.getElementById("main-field");
     main.style.width = "500px";
 
     var grid = [];
 
+    //Создаем двумерный массив и заполняем его нулями
     for (var i = 0; i < 10; i++) {
         grid[i] = [];
         for (var j = 0; j < 10; j++) {
@@ -13,6 +14,7 @@ function SeaFight() {
         }
     }
 
+    //Заполняем html код
     var html = "";
     for (var i = 0; i < 100; i++) {
         html = html + "<div class='game-field'></div>";
@@ -20,10 +22,7 @@ function SeaFight() {
 
     main.innerHTML = html;
 
-// for (var i = 0; i < 100; i++) {
-//     main.children[i].innerHTML = 0;
-// }
-
+    //Переменные о свойсвах поля
     var count1Ship = 4;
     var count2Ship = 3;
     var count3Ship = 2;
@@ -39,27 +38,21 @@ function SeaFight() {
 
     console.log(grid);
 
-    function Color() {
-        for (var i = 0; i < 10; i++) {
-            for (var j = 0; j < 10; j++) {
-                if (grid[i][j] > 1) {
-                    main.children[i * 10 + j].style.color = "red";
-                }
-            }
-        }
-    }
-
+    //Создаем поле с кораблями
     function createField() {
+        //Длина корабля
         var l;
 
-        //for (var x = 0; x < 2; x++)
         while (true) {
+            //Считаем количество свободных ячеек
             var r = 0;
             for (var i = 0; i < 10; i++) {
                 for (var j = 0; j < 10; j++) {
                     if (grid[i][j] === 0) r++;
                 }
             }
+
+            //Определяем какой корабль на очереди для установки или очередь кончилась
             if (count < count4Ship) {
                 l = 4;
             } else if (count < count4Ship + count3Ship) {
@@ -72,20 +65,30 @@ function SeaFight() {
                 break;
             }
             //console.log("r " + r);
+
+            //Выбираем случайную ячейку
             Random = Math.floor(Math.random() * r);
+
             //console.log("Random " + Random);
             //console.log("Count " + count);
+
+            //Доходим до случайно выбранной ячейки
             var p = 0;
             for (var i = 0; i < 10; i++) {
                 for (var j = 0; j < 10; j++) {
                     if (grid[i][j] === 0) p++;
                     if (p === Random) {
                         Coord = i * 10 + j;
+
+                        //Проверяем данную ячееку
                         var direction = checkPlace(Coord, l);
+
                         // console.log("Lenght " + l);
                         // console.log("Coord " + Coord);
                         // console.log("CheckPlace " + checkPlace(Coord, l));
+
                         if (direction > 0) {
+                            //Устанавливаем корабль
                             setShip(direction, Coord, l);
                             count++;
                         }
@@ -97,16 +100,20 @@ function SeaFight() {
         }
     }
 
+    //Проверяем ячейку на возможность установки корабля и если да, то в каком направлении
     function checkPlace(c, l) {
+        //с - координаты ячейки
+
         var directionW = 0;
         var directionH = 0;
 
         var height = Math.floor(c / 10);
         var width = c - Math.floor(c / 10) * 10;
 
-        //width left
+        //Ширина и коэффициенты
         var w1 = 0;
         var w2 = 0;
+        //Сканируем поле влево
         for (var i = 0; i < width; i++) {
             if (grid[height][width - 1 - i] === 0) {
                 w1++;
@@ -114,18 +121,20 @@ function SeaFight() {
                 break;
             }
         }
-        for (var i = 0; i < 10 - 1 - width; i++) {
-            if (grid[height][width + 1 + i] === 0) {
-                w2++;
-            } else {
-                break;
+            //Сканируем поле вправо
+            for (var i = 0; i < 10 - 1 - width; i++) {
+                if (grid[height][width + 1 + i] === 0) {
+                    w2++;
+                } else {
+                    break;
+                }
             }
-        }
-        if (w1 + w2 + 1 >= l) directionW++;
+            if (w1 + w2 + 1 >= l) directionW++;
 
-        //height left
+        //Высота и коэффициенты
         var h1 = 0;
         var h2 = 0;
+        //Сканируем поле вверх
         for (var i = 0; i < height; i++) {
             if (grid[height - 1 - i][width] === 0) {
                 h1++;
@@ -133,16 +142,17 @@ function SeaFight() {
                 break;
             }
         }
-        for (var i = 0; i < 10 - 1 - height; i++) {
-            if (grid[height + 1 + i][width] === 0) {
-                h2++;
-            } else {
-                break;
+            //Сканируем поле вниз
+            for (var i = 0; i < 10 - 1 - height; i++) {
+                if (grid[height + 1 + i][width] === 0) {
+                    h2++;
+                } else {
+                    break;
+                }
             }
-        }
-        if (h1 + h2 + 1 >= l) directionH++;
+            if (h1 + h2 + 1 >= l) directionH++;
 
-        //result
+        //Говорим в каком направлении можно поставить корабль
         if (directionW === 1 && directionH === 1) {
             return 3
         }
@@ -157,7 +167,12 @@ function SeaFight() {
         }
     }
 
+    //Устанавливаем корабль
     function setShip(d, c, l) {
+        //d - направление установки корабля
+        //c - координаты ячейки
+        //l - длина корабля
+
         var height = Math.floor(c / 10);
         var width = c - Math.floor(c / 10) * 10;
         grid[height][width] = l + 1;
@@ -166,9 +181,10 @@ function SeaFight() {
         var shipH1 = 0;
         var shipH2 = 0;
         if (d === 3) d = Math.floor(Math.random() * 2 + 1);
-        //console.log("Direction " + d);
 
+        //Устанавлеваем корабль по ширине
         if (d === 1) {
+            //Уснавливаем корабль влево
             for (var i = 0; i < width; i++) {
                 if (shipW1 + shipW2 + 1 === l) {
                     setCover(d, width - shipW1, width + shipW2, height);
@@ -181,6 +197,7 @@ function SeaFight() {
                     break;
                 }
             }
+            //Устанавливаем корабль вправо
             for (var i = 0; i < 10 - 1 - width; i++) {
                 if (shipW1 + shipW2 + 1 === l) {
                     setCover(d, width - shipW1, width + shipW2, height);
@@ -193,7 +210,10 @@ function SeaFight() {
                     break;
                 }
             }
-        } else if (d === 2) {
+        }
+        //Устанавливаем корабль по высоте
+        else if (d === 2) {
+            //Устанавливаем корабль вверх
             for (var i = 0; i < height; i++) {
                 if (shipH1 + shipH2 + 1 === l) {
                     setCover(d, height - shipH1, height + shipH2, width);
@@ -206,6 +226,7 @@ function SeaFight() {
                     break;
                 }
             }
+            //Устанавливаем корабль вниз
             for (var i = 0; i < 10 - 1 - height; i++) {
                 if (shipH1 + shipH2 + 1 === l) {
                     setCover(d, height - shipH1, height + shipH2, width);
@@ -221,9 +242,14 @@ function SeaFight() {
         }
     }
 
+    //Делаем оболочку вокруг корабля
     function setCover(dir, start, end, secondPar) {
-        //console.log("setCover");
-        //console.log(dir, start, end, secondPar);
+        //dir - направление корабля (ширина или высота)
+        //start - начало корабля
+        //end - конец корабля
+        //secondPar - второй параметр (ширина или высота)
+
+        //Делаем оболочку для корабля по ширине
         if (dir === 1) {
             var w1 = start;
             var w2 = end;
@@ -287,7 +313,9 @@ function SeaFight() {
                     }
                 }
             }
-        } else if (dir === 2) {
+        }
+        //Делаем оболочку для корабля по высоте
+        else if (dir === 2) {
             var h1 = start;
             var h2 = end;
             var width = secondPar;
@@ -356,6 +384,7 @@ function SeaFight() {
 //----------------------------
     var win = false;
 
+    //Добавляем для каждого DOM элемента в поле слушателя
     for (var i = 0; i < main.children.length; i++) {
         (function (index) {
             main.children[i].onclick = function () {
@@ -364,7 +393,7 @@ function SeaFight() {
                     console.log(point);
                     if (point >= 0) {
                         if (point === 0 || point === 1) {
-                            main.children[index].style.backgroundColor = "blue";
+                            main.children[index].style.backgroundColor = "white";
                         } else {
                             var hit = checkShip(Math.floor(index / 10), index - Math.floor(index / 10) * 10, point - 1);
                             grid[Math.floor(index / 10)][index - Math.floor(index / 10) * 10] = -1;
@@ -376,11 +405,12 @@ function SeaFight() {
         })(i);
     }
 
-    function checkShip(height, width, lenght) {
+    //Сканируем на уничтожение или ранение корабля
+    function checkShip(height, width, length) {
         var arr = [];
         var arg;
 
-        //width checking
+        //Сканируем по ширине
         var a1 = 0, a2 = 0;
         for (var w = 0; w < width; w++) {
             if (grid[height][width - 1 - w] !== 1) {
@@ -396,7 +426,7 @@ function SeaFight() {
                 break;
             }
         }
-        if (a1 + a2 + 1 === lenght) {
+        if (a1 + a2 + 1 === length) {
             for (var i = 0; i < a1; i++) {
                 arg = height * 10 + width - 1 - i;
                 arr.push(arg);
@@ -410,7 +440,7 @@ function SeaFight() {
             return true;
         }
 
-        //height checking
+        //Сканируем по высоте
         var b1 = 0, b2 = 0;
         for (var h = 0; h < height; h++) {
             if (grid[height - 1 - h][width] !== 1) {
@@ -426,7 +456,7 @@ function SeaFight() {
                 break;
             }
         }
-        if (b1 + b2 + 1 === lenght) {
+        if (b1 + b2 + 1 === length) {
             for (var i = 0; i < b1; i++) {
                 arg = (height - 1 - i) * 10 + width;
                 arr.push(arg);
@@ -441,6 +471,7 @@ function SeaFight() {
         }
     }
 
+    //Обозначаем унижтожение корабля
     function deadShip(array) {
         for (var i = 0; i < array.length; i++) {
             main.children[array[i]].style.backgroundColor = "red";
@@ -449,9 +480,10 @@ function SeaFight() {
         if (deadShipCount === count4Ship + count3Ship + count2Ship + count1Ship) {
             win = true;
             document.getElementById("modal").style.display = "flex";
-            setTimeout(modalWin, 1000);
+            setTimeout(modalWin, 0);
         }
 
+        //Запускаем модальное окно победителя
         function modalWin() {
             document.getElementById("modal").style.opacity = 1;
             document.getElementById("modal-window-text").innerHTML = "You won! My congratulations";

@@ -41,6 +41,50 @@ body{
                 color: black;
                 background: rgba(255, 255, 255, 1);
             }
+        .center-block-description{
+            width: 100%;
+            margin-bottom: 30px;
+        }
+            .center-block-description-text{
+                width: 100%;
+                color: white;
+                text-align: center;
+                font-size: 20px;
+                font-weight: 700;
+                font-family: lato,sans-serif;
+                margin-bottom: 20px;
+            }
+            .center-block-description-select{
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+                .center-block-description-select-text{
+                    font-size: 20px;
+                    font-weight: 700;
+                    font-family: lato,sans-serif;
+                    color: white;
+                }
+                .center-block-description-select-selector{
+                    outline: none;
+                    width: 300px;
+                    height: 30px;
+                    border: 1px solid white;
+                    border-radius: 3px;
+                    color: white;
+                    background: transparent;
+                    text-align: center;
+                    padding-left: 60px;
+                    font-size: 20px;
+                    font-weight: 700;
+                    font-family: lato,sans-serif;
+                }
+                .center-block-description-select-selector > option {
+                    background-color: #2d2d37;
+                    border: 1px solid white;
+                    border-radius: 3px;
+                }
         .center-block-game{
             width: 100%;
             display: flex;
