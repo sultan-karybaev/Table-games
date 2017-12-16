@@ -11,6 +11,7 @@
         <div class="radioButtons">
             <div id="OvsX" class="radioButtons-button">O vs X</div>
             <div id="SeaFight" class="radioButtons-button">Sea Fight</div>
+            <div id="Reversy" class="radioButtons-button">Reversy</div>
         </div>
         <div class="center-block-description" id="center-block-description" style="display: none">
             <div class="center-block-description-text">You have to collect 5 ones in a row. Good luck!</div>
@@ -24,6 +25,14 @@
                     <option value="14">14 x 14</option>
                     <option value="15">15 x 15</option>
                 </select>
+            </div>
+            <div class="center-block-description-move">
+                <div class="center-block-description-move-block">
+                    <div class="center-block-description-move-block-sign" id="center-block-description-move-block-sign"></div>
+                    <div class="center-block-description-move-block-text">
+                        Now move
+                    </div>
+                </div>
             </div>
         </div>
         <div class="center-block-game">
@@ -43,14 +52,24 @@
 
 <script type="text/javascript" src="OvsX.js"></script>
 <script type="text/javascript" src="SeaFight.js"></script>
+<script type="text/javascript" src="Reversy.js"></script>
 <script>
+    //Reversy(8);
+
     document.getElementById("OvsX").onclick = function () {
         this.style.color = "black";
         this.style.background = "rgba(255, 255, 255, 1)";
         document.getElementById("center-block-description").style.display = "block";
         document.getElementById("SeaFight").style.color = "white";
         document.getElementById("SeaFight").style.background = "rgba(255, 255, 255, 0)";
+        document.getElementById("Reversy").style.color = "white";
+        document.getElementById("Reversy").style.background = "rgba(255, 255, 255, 0)";
         OvsX(10);
+
+        var selector = document.getElementById("selector");
+        selector.addEventListener("change", function () {
+            OvsX(this.value);
+        });
     };
     document.getElementById("SeaFight").onclick = function () {
         this.style.color = "black";
@@ -58,7 +77,24 @@
         document.getElementById("center-block-description").style.display = "none";
         document.getElementById("OvsX").style.color = "white";
         document.getElementById("OvsX").style.background = "rgba(255, 255, 255, 0)";
+        document.getElementById("Reversy").style.color = "white";
+        document.getElementById("Reversy").style.background = "rgba(255, 255, 255, 0)";
         SeaFight();
+    };
+    document.getElementById("Reversy").onclick = function () {
+        this.style.color = "black";
+        this.style.background = "rgba(255, 255, 255, 1)";
+        document.getElementById("center-block-description").style.display = "block";
+        document.getElementById("OvsX").style.color = "white";
+        document.getElementById("OvsX").style.background = "rgba(255, 255, 255, 0)";
+        document.getElementById("SeaFight").style.color = "white";
+        document.getElementById("SeaFight").style.background = "rgba(255, 255, 255, 0)";
+        Reversy(8);
+
+        var selector = document.getElementById("selector");
+        selector.addEventListener("change", function () {
+            Reversy(this.value);
+        });
     };
     document.getElementById("modal-backdrop").onclick = function () {
         document.getElementById("modal").style.display = "none";

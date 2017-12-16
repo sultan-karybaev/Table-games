@@ -30,6 +30,8 @@ function OvsX(SIZE) {
     var move = 0;
     var win = false;
 
+    document.getElementById("center-block-description-move-block-sign").innerHTML = "O";
+
     //Добавляем ко всем DOM элементам сетки слушателей
     for (var i = 0; i < main.children.length; i++) {
         (function (index) {
@@ -38,11 +40,13 @@ function OvsX(SIZE) {
                     if (this.innerHTML === "") {
                         if (move % 2 === 0) {
                             this.innerHTML = "O";
+                            document.getElementById("center-block-description-move-block-sign").innerHTML = "X";
                             grid[Math.floor(index / SIZE)][index - Math.floor(index / SIZE) * SIZE] = 1;
                             win = check5(Math.floor(index / SIZE), index - Math.floor(index / SIZE) * SIZE, 1);
                         }
                         if (move % 2 === 1) {
                             this.innerHTML = "X";
+                            document.getElementById("center-block-description-move-block-sign").innerHTML = "O";
                             grid[Math.floor(index / SIZE)][index - Math.floor(index / SIZE) * SIZE] = 2;
                             win = check5(Math.floor(index / SIZE), index - Math.floor(index / SIZE) * SIZE, 2);
                         }
